@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+}
+
+button, input[type="submit"] {
+    padding: 5px 10px;
+}
+
+.grid-user-form {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 1rem;
+}
+
+.grid-user-form-input {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 0.5rem;
+}
+
+input[type="text"], input[type="password"] {
+    padding: 2px 4px;
+}
+
+.align-baseline {
+    align-items: baseline;
+}
+
+a {
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}

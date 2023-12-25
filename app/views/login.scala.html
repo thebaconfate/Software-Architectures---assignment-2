@@ -1,0 +1,29 @@
+@(title: String)(implicit session: Session)
+
+@main(title, session) {
+    <div class="flex-center">
+        <div class="grid-user-form">
+            <div class="flex-center">
+                <h2>Login</h2>
+            </div>
+            <div>
+                <form action="/login" method="post" class="grid-user-form-input">
+                    <div class="flex-between align-baseline">
+                        <label for="username:">Username</label>
+                        <input type="text" name="username" id="username" placeholder="Username" required>
+                    </div>
+                    <div class="flex-between flex-gap align-baseline">
+                        <label for="password:">Password</label>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                    </div>
+                    <div class="flex-center">
+                        <p>Don't have an account? </p><a href="@routes.UserController.registerView()">Register</a>
+                    </div>
+                    <div class="flex-center">
+                        <input type="submit" value="Login">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
