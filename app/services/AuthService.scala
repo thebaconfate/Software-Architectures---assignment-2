@@ -1,7 +1,6 @@
 package services
 
 import pdi.jwt.{JwtAlgorithm, JwtClaim, JwtJson}
-import com.typesafe.config.ConfigFactory
 import models.{RegisteredUser, User}
 import org.mindrot.jbcrypt.BCrypt
 import play.api.Configuration

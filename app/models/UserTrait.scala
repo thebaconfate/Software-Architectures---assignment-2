@@ -1,3 +1,6 @@
 package models
 
-trait UserTrait(username: String, password: String)
+trait UserTrait {
+  val username: String
+  val password: String
+}
