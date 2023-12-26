@@ -1,14 +1,13 @@
 package services
 
-import pdi.jwt.{JwtAlgorithm, JwtClaim, JwtJson}
 import models.{RegisteredUser, User}
 import org.mindrot.jbcrypt.BCrypt
+import pdi.jwt.{JwtAlgorithm, JwtClaim, JwtJson}
 import play.api.Configuration
-import play.api.libs.json._
-import play.api.libs.json.Reads._
-import play.api.libs.functional.syntax._
-
-import java.io.{File, FileInputStream, FileOutputStream, InputStreamReader}
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
+import play.api.libs.json.Reads.*
+import java.io.{File, FileInputStream, FileOutputStream}
 import java.time.Clock
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ class AuthService @Inject()(conf : Configuration) {
       (JsPath \ "password").format[String]
     ) (RegisteredUser.apply, r => (r.id, r.username, r.password))
 
-  def generateToken(userID: Int): String = {
+  private def generateToken(userID: Int): String = {
     val claim = JwtClaim().issuedNow.expiresIn(3600).+("user_id", userID)
     JwtJson.encode(claim, secretKey, algo)
   }
@@ -49,15 +48,15 @@ class AuthService @Inject()(conf : Configuration) {
     }
   }
 
-  def hashPassword(user: User): User = {
+  private def hashPassword(user: User): User = {
     user.copy(password = BCrypt.hashpw(user.password, BCrypt.gensalt()))
   }
 
-  def checkPassword(user: User, password: String): Boolean = {
+  private def checkPassword(user: User, password: String): Boolean = {
     BCrypt.checkpw(user.password, password)
   }
 
-  def saveUser(user: User, usersDB: List[RegisteredUser]): Unit = {
+  private def saveUser(user: User, usersDB: List[RegisteredUser]): Unit = {
     println("saveUser")
     val newID = usersDB.length + 1
     val newUser = RegisteredUser(
@@ -74,11 +73,11 @@ class AuthService @Inject()(conf : Configuration) {
     file.close()
   }
 
-  def getUser(user: User, db: List[RegisteredUser]): Option[RegisteredUser] = {
+  private def getUser(user: User, db: List[RegisteredUser]): Option[RegisteredUser] = {
     db.find(_.username == user.username)
   }
 
-  def loginUser(user: User) = {
+  def loginUser(user: User): String = {
     val usersDB = readDB
     val someUser = getUser(user, usersDB)
     someUser match {

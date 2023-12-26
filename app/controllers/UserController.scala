@@ -1,24 +1,15 @@
 package controllers
-
 import models.User
-
-import javax.inject.{Inject, Singleton}
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents, MessagesAbstractController, MessagesActionBuilder, MessagesControllerComponents, MessagesRequest, Request}
-import play.api.Configuration
 import play.api.data.*
 import play.api.data.Forms.*
-import pdi.jwt.*
-import play.api.data.Forms.nonEmptyText
-import play.api.libs.json.{JsObject, Json}
+import play.api.mvc.*
 import services.AuthService
-import views.html.helper.form
-
-import java.time.Clock
+import javax.inject.{Inject, Singleton}
 
 @Singleton
 class UserController @Inject()(val cc: ControllerComponents, messagesAction: MessagesActionBuilder, authService: AuthService) extends AbstractController(cc) {
 
-  val userForm: Form[User] = Form(
+  private val userForm: Form[User] = Form(
     mapping(
       "username" -> nonEmptyText,
       "password" -> nonEmptyText,
