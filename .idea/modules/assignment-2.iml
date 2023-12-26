@@ -28,6 +28,9 @@
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.3:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.3:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.module:jackson-module-scala_3:2.14.3:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.github.jwt-scala:jwt-core_3:9.4.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.github.jwt-scala:jwt-json-common_3:9.4.5:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.github.jwt-scala:jwt-play-json_3:9.4.5:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: com.github.sbt:junit-interface:0.13.3:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: com.google.auto.service:auto-service-annotations:1.1.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.google.code.findbugs:jsr305:3.0.2:jar" level="project" />
@@ -51,6 +54,7 @@
     <orderEntry type="library" scope="TEST" name="sbt: commons-logging:commons-logging:1.2:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: commons-net:commons-net:3.9.0:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: commons-validator:commons-validator:1.7:jar" level="project" />
+    <orderEntry type="library" name="sbt: de.svenkubiak:jBCrypt:0.4.3:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: dev.failsafe:failsafe:3.3.2:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: io.appium:java-client:8.2.1:jar" level="project" />
     <orderEntry type="library" scope="TEST" name="sbt: io.fluentlenium:fluentlenium-core:6.0.0:jar" level="project" />

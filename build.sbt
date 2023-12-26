@@ -10,6 +10,10 @@ scalaVersion := "3.3.1"
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.0" % Test
 libraryDependencies += "com.github.jwt-scala" %% "jwt-play-json" % "9.4.5"
+libraryDependencies += "org.mindrot" % "jbcrypt" % "0.4"
+libraryDependencies += "org.playframework" %% "play-json" % "3.0.1"
+
+
 
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "vub.student.controllers._"

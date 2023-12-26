@@ -8,11 +8,18 @@
     justify-content: center;
     align-items: center;
 }
-.flex-between {
+
+dd.info{
+    display: none;
+}
+dl {
     display: flex;
+    align-items: baseline;
     justify-content: space-between;
     gap: 1rem;
 }
+
+
 
 .header-container {
     display: flex;
@@ -25,10 +32,11 @@ button, input[type="submit"] {
     padding: 5px 10px;
 }
 
-.grid-user-form {
+form {
     display: grid;
     grid-template-rows: auto;
-    gap: 1rem;
+    padding-top: 1rem;
+    gap: 0.5rem;
 }
 
 .grid-user-form-input {
@@ -46,6 +54,7 @@ input[type="text"], input[type="password"] {
 }
 
 a {
+    display: inline;
     padding-left: 0.2rem;
     padding-right: 0.2rem;
 }
