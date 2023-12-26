@@ -1,12 +1,1 @@
-[
-  {
-    "user_id" : 1,
-    "username": "admin",
-    "password": "admin"
-  },
-  {
-    "user_id" : 2,
-    "username": "user",
-    "password": "user"
-  }
-]
+[{"user_id":3,"username":"Gerard","password":"$2a$10$T1Qs/BPfseijRmmVyQUUEOD9uWM2Lpa.dTJNg68xsOh5vNOFDjLZ6"},{"user_id":1,"username":"admin","password":"admin"},{"user_id":2,"username":"user","password":"user"}]

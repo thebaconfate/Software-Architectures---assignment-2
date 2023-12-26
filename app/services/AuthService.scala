@@ -18,11 +18,11 @@ class AuthService @Inject()(conf : Configuration) {
   private val secretKey = conf.get[String]("application.secret_key")
   private val algo = JwtAlgorithm.HS256
   private val dbPath = "./resources/userdb.json"
-  implicit val registeredUserReader: Reads[RegisteredUser] = (
-    (JsPath \ "user_id").read[Int] and
-      (JsPath \ "username").read[String] and
-      (JsPath \ "password").read[String]
-    )(RegisteredUser.apply _)
+  implicit val registeredUserFormat: Format[RegisteredUser] = (
+    (JsPath \ "user_id").format[Int] and
+      (JsPath \ "username").format[String] and
+      (JsPath \ "password").format[String]
+    ) (RegisteredUser.apply, r => (r.id, r.username, r.password))
 
   def generateToken(userID: Int): String = {
     val claim = JwtClaim().issuedNow.expiresIn(3600).+("user_id", userID)
@@ -58,9 +58,9 @@ class AuthService @Inject()(conf : Configuration) {
     BCrypt.checkpw(password, user.password)
   }
 
-/*  def saveUser(user: User): Unit = {
+  def saveUser(user: User, usersDB: List[RegisteredUser]): Unit = {
     println("saveUser")
-    val newID = readDB.length + 1
+    val newID = usersDB.length + 1
     val newUser = RegisteredUser(
       id = newID,
       username = user.username,
@@ -68,21 +68,20 @@ class AuthService @Inject()(conf : Configuration) {
     )
     println(newUser)
     val file = FileOutputStream(dbPath)
-    val json = Json.toJson(readDB :+ newUser)
+    val json = Json.toJson(usersDB.::(newUser))
     println(json)
     file.write(json.toString().getBytes)
     file.flush()
     file.close()
-  }*/
+  }
 
-  def getUser(user: User, db: List): Option[RegisteredUser] = {
-    println("getUser")
-    println(readDB.toString())
-    Some(readDB.find(_.username == user.username).get)
+  def getUser(user: User, db: List[RegisteredUser]): Option[RegisteredUser] = {
+    db.find(_.username == user.username)
   }
 
   def loginUser(user: User) = {
-    val someUser = getUser(user)
+    val usersDB = readDB
+    val someUser = getUser(user, usersDB)
     someUser match {
       case Some(registeredUser) =>
         if (checkPassword(user, registeredUser.password)) {
@@ -95,11 +94,12 @@ class AuthService @Inject()(conf : Configuration) {
   }
 
   def registerUser(user: User): Unit = {
-    println("registerUser")
-    val someUser = getUser(user)
+    val usersDB = readDB
+    println(usersDB)
+    val someUser = getUser(user, usersDB)
     someUser match {
       case Some(_) => throw new Exception("User already exists")
-      case None => println("saving user") //saveUser(user)
+      case None => saveUser(user, usersDB)
     }
   }
 }
