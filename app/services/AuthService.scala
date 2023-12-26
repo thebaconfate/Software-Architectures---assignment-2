@@ -54,7 +54,7 @@ class AuthService @Inject()(conf : Configuration) {
   }
 
   def checkPassword(user: User, password: String): Boolean = {
-    BCrypt.checkpw(password, user.password)
+    BCrypt.checkpw(user.password, password)
   }
 
   def saveUser(user: User, usersDB: List[RegisteredUser]): Unit = {
@@ -69,7 +69,7 @@ class AuthService @Inject()(conf : Configuration) {
     val file = FileOutputStream(dbPath)
     val json = Json.toJson(usersDB.::(newUser))
     println(json)
-    file.write(json.toString().getBytes)
+    file.write(Json.prettyPrint(json).getBytes())
     file.flush()
     file.close()
   }
@@ -84,11 +84,12 @@ class AuthService @Inject()(conf : Configuration) {
     someUser match {
       case Some(registeredUser) =>
         if (checkPassword(user, registeredUser.password)) {
+          println("Generated token")
           generateToken(registeredUser.id)
         } else {
           throw new Exception("Wrong password")
         }
-      case None => throw new Exception("User not found")
+      case _ => throw new Exception("User not found")
     }
   }
 
