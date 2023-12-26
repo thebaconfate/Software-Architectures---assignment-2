@@ -1,4 +1,4 @@
-@(title: String)(implicit session: Session)
+@(title: String, form: Form[models.User])(implicit session: Session, request: RequestHeader, messages: Messages)
 
 @main(title, session) {
     <div class="flex-center">

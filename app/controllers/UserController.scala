@@ -16,21 +16,22 @@ import views.html.helper.form
 import java.time.Clock
 
 @Singleton
-class UserController @Inject()(val cc: ControllerComponents, messagesAction: MessagesActionBuilder) extends AbstractController(cc) {
+class UserController @Inject()(val cc: ControllerComponents, messagesAction: MessagesActionBuilder, authService: AuthService) extends AbstractController(cc) {
 
-  val loginForm: Form[User] = Form(
+  val userForm: Form[User] = Form(
     mapping(
       "username" -> nonEmptyText,
       "password" -> nonEmptyText,
     )(User.apply)(User.unapply))
+  
 
   def loginView: Action[AnyContent] = messagesAction {
     implicit request: MessagesRequest[AnyContent] =>
-      Ok(views.html.login("login", loginForm))
+      Ok(views.html.login("login", userForm))
   }
 
   def processLogin: Action[AnyContent] = messagesAction { implicit request =>
-    loginForm
+    userForm
       .bindFromRequest()
       .fold(
         formWithErrors => {
@@ -38,24 +39,36 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
         },
         user => {
           try {
-            val token = AuthService.loginUser(user)
+            val token = authService.loginUser(user)
             Redirect(routes.HomeController.index()).withSession("jwt" -> token)
           } catch {
-            case _: Exception => BadRequest(views.html.login("login", loginForm))
+            case _: Exception => BadRequest(views.html.login("login", userForm))
           }
         }
       )
   }
   
-
-  def registerView: Action[AnyContent] = Action {
-    implicit request: Request[AnyContent] =>
-      Ok(views.html.register("register text"))
+  def registerView: Action[AnyContent] = messagesAction {
+    implicit request: MessagesRequest[AnyContent] =>
+      Ok(views.html.register("register text", userForm))
   }
   
-  /*def processReview: Action[AnyContent] = MessagesAction {
-    implicit request: MessagesRequest[AnyContent] =>
-      registerForm 
-  }*/
+  def processRegister: Action[AnyContent] = messagesAction { implicit request =>
+    userForm
+      .bindFromRequest()
+      .fold(
+        formWithErrors => {
+          BadRequest(views.html.register("register", formWithErrors))
+        },
+        user => {
+          try {
+            authService.registerUser(user)
+            Redirect(routes.UserController.loginView)
+          } catch {
+            case _: Exception => BadRequest(views.html.register("register", userForm))
+          }
+        }
+      )
+  }
 
 }
