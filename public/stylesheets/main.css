@@ -20,6 +20,10 @@ dl {
 }
 
 
+ul.navlist {
+    list-style: none;
+}
+
 
 .header-container {
     display: flex;

@@ -1,6 +1,6 @@
-@(welcome: String)(implicit session: Session)
+@(welcome: String, loggedIn: Boolean)(implicit session: Session, request: RequestHeader)
 
-@main(welcome, session) {
+@main(welcome, session, loggedIn) {
   <main>
 
   </main>

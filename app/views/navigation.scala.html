@@ -1,0 +1,12 @@
+@(loggedIn: Boolean)(implicit request: RequestHeader)
+
+<nav>
+    <ul class="navlist">
+        @if(loggedIn) {
+            <li class="navli"><a href="">Profile</a></li>
+            <li class="navli"><a href="">Logout</a></li>
+        } else {
+            <li class="navli"><a href="@routes.UserController.loginView">Login</a></li>
+        }
+    </ul>
+</nav>
