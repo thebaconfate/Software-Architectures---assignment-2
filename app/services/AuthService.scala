@@ -12,7 +12,7 @@ import play.api.libs.functional.syntax.*
 import java.io.{File, FileInputStream, FileOutputStream, InputStreamReader}
 import java.time.Clock
 import javax.inject.Inject
-import scala.util.Success
+import scala.util.{Failure, Success}
 
 class AuthService @Inject()(conf : Configuration) {
   implicit val clock: Clock = Clock.systemUTC
@@ -106,6 +106,10 @@ class AuthService @Inject()(conf : Configuration) {
 
   def getUser(user: User, db: List[RegisteredUser]): Option[RegisteredUser] = {
     db.find(_.username == user.username)
+  }
+  
+  def getUserByID(userID: Int, usersDB: List[RegisteredUser]): Option[RegisteredUser] = {
+    usersDB.find(_.id == userID)
   }
 
   def loginUser(user: User) = {
