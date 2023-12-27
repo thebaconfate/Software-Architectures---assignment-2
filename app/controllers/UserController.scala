@@ -30,6 +30,10 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
       Ok(views.html.login("login", userForm, false))
   }
 
+  def processLogout: Action[AnyContent] = messagesAction{
+    implicit request: MessagesRequest[AnyContent] =>
+      Redirect(routes.UserController.loginView).withNewSession
+  }
   def processLogin: Action[AnyContent] = messagesAction { implicit request =>
     userForm
       .bindFromRequest()

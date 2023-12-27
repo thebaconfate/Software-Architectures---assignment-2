@@ -1,7 +1,6 @@
 package services
 
 import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim, JwtJson}
-import com.typesafe.config.ConfigFactory
 import models.{RegisteredUser, User}
 import org.mindrot.jbcrypt.BCrypt
 import play.api.Configuration
@@ -9,7 +8,7 @@ import play.api.libs.json.*
 import play.api.libs.json.Reads.*
 import play.api.libs.functional.syntax.*
 
-import java.io.{File, FileInputStream, FileOutputStream, InputStreamReader}
+import java.io.{File, FileInputStream, FileOutputStream}
 import java.time.Clock
 import javax.inject.Inject
 import scala.util.{Failure, Success}
@@ -31,14 +30,9 @@ class AuthService @Inject()(conf : Configuration) {
       .expiresIn(3600)
     Jwt.encode(claim, secretKey, algo)
   }
+  
 
-  def refreshToken(token: String): String = {
-    val claim = JwtJson.decode(token, secretKey, Seq(algo)).get
-    val newClaim = claim.issuedNow.expiresIn(3600)
-    JwtJson.encode(newClaim, secretKey, algo)
-  }
-
-  private def validateToken(token: String): Boolean = {
+  def validateToken(token: String): Boolean = {
     println("validateToken")
     if(Jwt.isValid(token, secretKey, Seq(algo))) {
       println("token is valid")
@@ -79,15 +73,15 @@ class AuthService @Inject()(conf : Configuration) {
     }
   }
 
-  def hashPassword(user: User): User = {
+  private def hashPassword(user: User): User = {
     user.copy(password = BCrypt.hashpw(user.password, BCrypt.gensalt()))
   }
 
-  def checkPassword(user: User, password: String): Boolean = {
-    BCrypt.checkpw(password, user.password)
+  private def checkPassword(user: User, password: String): Boolean = {
+    BCrypt.checkpw(user.password, password)
   }
 
-  def saveUser(user: User, usersDB: List[RegisteredUser]): Unit = {
+  private def saveUser(user: User, usersDB: List[RegisteredUser]): Unit = {
     println("saveUser")
     val newID = usersDB.length + 1
     val newUser = RegisteredUser(
@@ -104,17 +98,18 @@ class AuthService @Inject()(conf : Configuration) {
     file.close()
   }
 
-  def getUser(user: User, db: List[RegisteredUser]): Option[RegisteredUser] = {
+  private def getUser(user: User, db: List[RegisteredUser]): Option[RegisteredUser] = {
     db.find(_.username == user.username)
   }
-  
-  def getUserByID(userID: Int, usersDB: List[RegisteredUser]): Option[RegisteredUser] = {
+
+  private def getUserByID(userID: Int, usersDB: List[RegisteredUser]): Option[RegisteredUser] = {
     usersDB.find(_.id == userID)
   }
 
-  def loginUser(user: User) = {
+  def loginUser(user: User): String = {
     val usersDB = readDB
     val someUser = getUser(user, usersDB)
+    println(someUser)
     someUser match {
       case Some(registeredUser) =>
         if (checkPassword(user, registeredUser.password)) {
