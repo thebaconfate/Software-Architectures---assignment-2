@@ -18,7 +18,7 @@ import java.time.Clock
 @Singleton
 class UserController @Inject()(val cc: ControllerComponents, messagesAction: MessagesActionBuilder, authService: AuthService) extends AbstractController(cc) {
 
-  val userForm: Form[User] = Form(
+  private val userForm: Form[User] = Form(
     mapping(
       "username" -> nonEmptyText,
       "password" -> nonEmptyText,
