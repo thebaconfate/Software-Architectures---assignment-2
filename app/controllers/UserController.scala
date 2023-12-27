@@ -27,7 +27,7 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
 
   def loginView: Action[AnyContent] = messagesAction {
     implicit request: MessagesRequest[AnyContent] =>
-      Ok(views.html.login("login", userForm))
+      Ok(views.html.login("login", userForm, false))
   }
 
   def processLogin: Action[AnyContent] = messagesAction { implicit request =>
@@ -35,14 +35,14 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
       .bindFromRequest()
       .fold(
         formWithErrors => {
-          BadRequest(views.html.login("login", formWithErrors))
+          BadRequest(views.html.login("login", formWithErrors, false))
         },
         user => {
           try {
             val token = authService.loginUser(user)
             Redirect(routes.HomeController.index()).withSession("jwt" -> token)
           } catch {
-            case _: Exception => BadRequest(views.html.login("login", userForm))
+            case _: Exception => BadRequest(views.html.login("login", userForm, false))
           }
         }
       )
@@ -50,7 +50,7 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
   
   def registerView: Action[AnyContent] = messagesAction {
     implicit request: MessagesRequest[AnyContent] =>
-      Ok(views.html.register("register text", userForm))
+      Ok(views.html.register("register text", userForm, false))
   }
   
   def processRegister: Action[AnyContent] = messagesAction { implicit request =>
@@ -58,14 +58,14 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
       .bindFromRequest()
       .fold(
         formWithErrors => {
-          BadRequest(views.html.register("register", formWithErrors))
+          BadRequest(views.html.register("register", formWithErrors, false))
         },
         user => {
           try {
             authService.registerUser(user)
             Redirect(routes.UserController.loginView)
           } catch {
-            case _: Exception => BadRequest(views.html.register("register", userForm))
+            case _: Exception => BadRequest(views.html.register("register", userForm, false))
           }
         }
       )
