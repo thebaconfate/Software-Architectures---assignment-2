@@ -1,4 +1,4 @@
-@(title: String, form: Form[models.User])(implicit session: Session, request: RequestHeader, messages: Messages)
+@(title: String, form: Form[models.User], postUrl: Call)(implicit session: Session, request: MessagesRequestHeader)
 
 @main(title, session) {
     <div class="flex-center">
@@ -15,7 +15,7 @@
                 }
             }
 
-            @helper.form(action = routes.UserController.processLogin) {
+            @helper.form(postUrl) {
 
                 @helper.CSRF.formField
                 @helper.inputText(
@@ -32,7 +32,7 @@
                     Symbol("placeholder") -> "Password",
                     Symbol("size") -> 20
                 )
-                <div class="flex-center"><p>Don't have an account? </p> <a href="@routes.UserController.registerView">Register</a></div>
+                <div class="flex-center"><p>Don't have an account? </p> <a href="@routes.UserController.loginView">Register</a></div>
                 <div class="flex-center">
                     <input type="submit" value="Log In">
                 </div>

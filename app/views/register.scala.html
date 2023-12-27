@@ -1,4 +1,5 @@
-@(title: String, form: Form[models.User])(implicit session: Session, request: RequestHeader, messages: Messages)
+@*
+@(title: String, form: Form[models.User])(implicit session: Session, request: MessagesRequestHeader)
 
 @main(title, session) {
     <div class="flex-center">
@@ -15,7 +16,7 @@
                     }
                 }
 
-                @helper.form(action = routes.UserController.processRegister) {
+                @helper.form(action = routes.UserController.processLogin) {
 
                     @helper.CSRF.formField
                     @helper.inputText(
@@ -40,4 +41,4 @@
             </div>
         </div>
     </div>
-}
+}*@

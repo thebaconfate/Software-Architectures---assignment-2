@@ -12,5 +12,5 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET /login                          controllers.UserController.loginView
 POST /process_login                 controllers.UserController.processLogin
 
-GET /register                       controllers.UserController.registerView
-POST /process_register              controllers.UserController.processRegister
+#GET /register                       controllers.UserController.registerView
+#POST /process_register              controllers.UserController.processRegister
