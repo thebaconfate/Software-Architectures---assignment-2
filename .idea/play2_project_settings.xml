@@ -7,7 +7,7 @@
           <value>
             <ProjectSettingsEntry>
               <option name="sourceDir" value="C:\Users\gerar\Documents\Software projects\Personal\VUB\Software Architecturen\assignment-2\app" />
-              <option name="confDir" value="C:\Users\gerar\Documents\Software projects\Personal\VUB\Software Architecturen\assignment-2\app" />
+              <option name="confDir" value="C:\Users\gerar\Documents\Projects\Personal\Software-Architectures---assignment-2\app" />
               <option name="templateImports">
                 <list>
                   <option value="_root_.play.twirl.api.TwirlFeatureImports.*" />
@@ -31,7 +31,7 @@
                   <option value="controllers.Assets.Asset" />
                 </list>
               </option>
-              <option name="uri" value="/C:/Users/gerar/Documents/Software%20projects/Personal/VUB/Software%20Architecturen/assignment-2" />
+              <option name="uri" value="/C:/Users/gerar/Documents/Projects/Personal/Software-Architectures---assignment-2" />
             </ProjectSettingsEntry>
           </value>
         </entry>

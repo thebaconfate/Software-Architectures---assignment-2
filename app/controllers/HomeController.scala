@@ -1,15 +1,18 @@
 package controllers
 
-import javax.inject._
-import play.api._
-import play.api.mvc._
+import models.SharedImage
+
+import javax.inject.*
+import play.api.*
+import play.api.mvc.*
+import services._
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val controllerComponents: ControllerComponents) extends BaseController {
+class HomeController @Inject()(val controllerComponents: ControllerComponents, imageService: ImageService) extends BaseController {
 
   /**
    * Create an Action to render an HTML page.
@@ -18,7 +21,14 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index("Some text", false))
+  def index() = Action {
+    implicit request: Request[AnyContent] =>
+      val authenticated = true
+      val sharedImageList: List[SharedImage] = if authenticated then
+        imageService.getImages
+      else
+        List()
+      for(i <- sharedImageList) println(i.imagePath)
+      Ok(views.html.index("Some text", sharedImageList))
   }
 }
