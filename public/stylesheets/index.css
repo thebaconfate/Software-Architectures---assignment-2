@@ -1,0 +1,76 @@
+h2 {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+ul.images-list {
+    padding: 1rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    place-items: center;
+}
+
+li.image-item {
+    width: 100%;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 2fr 1fr;
+}
+
+.description-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.image-container > h3 {
+    place-self: end;
+}
+
+img {
+    margin-left: auto;
+    margin-right: auto;
+    width: clamp(min(10vw, 20rem), 75% + 1rem, 450px);
+}
+
+.likes-container {
+    display: flex;
+}
+
+.likes-and-comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.likes-container > p {
+    margin-left: 0.5rem;
+}
+
+.comments-list {
+    list-style: none;
+}
+
+.comment-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: calc(0.5rem);
+}
+
+.comment-container > h5, p {
+    overflow-wrap: break-word;
+}
+.comment-container > h5:after {
+    content: ":";
+    padding-left: 1px;
+
+}

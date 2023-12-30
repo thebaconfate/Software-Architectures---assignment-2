@@ -10,12 +10,12 @@ class ImageService @Inject()(){
   private val imagesJsonFile = "./resources/images.json"
   private val imagesFilesFolder = "./public/images/"
   implicit val commentFormat: Format[Comment] = (
-      (JsPath \ "comment_owner").format[Int] and
+      (JsPath \ "comment_owner").format[String] and
       (JsPath \ "comment"  ).format[String]
-    )(Comment.apply, c => (c.id, c.content))
+    )(Comment.apply, c => (c.owner, c.content))
   implicit val sharedImageFormat: Format[SharedImage] = (
     (JsPath \ "image_path").format[String] and
-      (JsPath \ "image_owner").format[Int] and
+      (JsPath \ "image_owner").format[String] and
       (JsPath \ "added_date").format[Date] and
       (JsPath \ "likes").format[Seq[Int]] and
       (JsPath \ "description").format[String] and

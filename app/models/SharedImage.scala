@@ -2,7 +2,7 @@ package models
 import java.util.Date
 
 case class SharedImage(imagePath: String,
-                       owner: Int,
+                       owner: String,
                        addedDate: Date,
                        likes: Seq[Int],
                        description: String,

@@ -1,6 +1,6 @@
 package models
 
 case class Comment(
-                  id: Int,
+                  owner: String,
                   content: String,
                   )

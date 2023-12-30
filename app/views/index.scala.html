@@ -1,16 +1,43 @@
 @(welcome: String, sharedImages: List[models.SharedImage])(implicit session: Session, request: RequestHeader)
 
-  @main(welcome, session, sharedImages.nonEmpty) {
-    <main>
-      @if(sharedImages.nonEmpty) {
-      <h2>Shared Images</h2>
-      <ul>
-      @for(image <- sharedImages) {
-      <li>
-        <img src="@routes.Assets.versioned(image.imagePath)" width="50px" height="50px" alt="somepicture"/>
+@main(welcome, session, sharedImages.nonEmpty) {
+  <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/index.css")">
+  <main>
+  @if(sharedImages.nonEmpty) {
+    <h2>Shared Images</h2>
+    <ul class="images-list">
+    @for(image <- sharedImages) {
+      <li class="image-item">
+        <div class="description-container">
+          <h3>Description</h3>
+          <p>@image.description</p>
+        </div>
+        <div class="image-container">
+          <h3>Added date: @image.addedDate.format("d/M/YYYY")</h3>
+          <img src="@routes.Assets.versioned(image.imagePath)" alt="somepicture"/>
+        </div>
+        <div class="likes-and-comments-container">
+          <span class="likes-container">
+            <h4>Likes:</h4><p>@image.likes.length</p>
+          </span>
+          <div class="comments-container">
+            <h3>Comments:</h3>
+            <ul class="comments-list">
+            @for(comment <- image.comments.take(5)) {
+              <li>
+                <span class="comment-container">
+                  <h5>@comment.owner</h5>
+                  <p>@comment.content</p>
+                </span>
+              </li>
+            }
+            </ul>
+            <a href="">See more</a>
+          </div>
+        </div>
       </li>
-      }
+    }
     </ul>
-      }
-    </main>
   }
+  </main>
+}

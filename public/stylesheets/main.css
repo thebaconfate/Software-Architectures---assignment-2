@@ -24,6 +24,10 @@ ul.navlist {
     list-style: none;
 }
 
+li.navli {
+    display: inline;
+}
+
 
 .header-container {
     display: flex;
