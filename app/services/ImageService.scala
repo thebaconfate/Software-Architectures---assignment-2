@@ -37,5 +37,28 @@ class ImageService @Inject()(){
   def getImage(username: String, imageURL: String): Option[SharedImage] = {
     val images = getImages
     images.find(image => image.owner == username && image.imagePath == imageURL)
-  } 
+  }
+
+  def saveImages(value: List[SharedImage]): Unit = {
+    val file = File(imagesJsonFile)
+    val outputStream = java.io.FileOutputStream(file)
+    try {
+      outputStream.write(Json.toJson(value).toString().getBytes)
+    } finally {
+      outputStream.close()
+    }
+  }
+  def addComment(imageOwner: String, imagePath: String, comment: String): Unit = {
+    val images = getImages
+    val image = images.find(image => image.owner == imageOwner && image.imagePath == imagePath)
+    image match {
+      case Some(image) => {
+        val newComment = Comment(imageOwner, comment)
+        val newImage = image.copy(comments = image.comments :+ newComment)
+        val newImages = images.filter(image => image.owner != imageOwner || image.imagePath != imagePath) :+ newImage
+        saveImages(newImages)
+      }
+      case None => println("image not found")
+    }
+  }
 }

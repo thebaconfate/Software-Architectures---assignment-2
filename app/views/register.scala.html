@@ -1,20 +1,13 @@
 @(title: String, form: Form[models.User], loggedIn: Boolean)(implicit session: Session, request: RequestHeader, messages: Messages)
 
 @main(title, session, loggedIn) {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/register.css")">
     <div class="flex-center">
         <div class="grid-user-form">
             <div class="flex-center">
                 <h2>Register</h2>
             </div>
             <div>
-                @if(form.hasGlobalErrors) {
-                    @form.globalErrors.map { (error: FormError) =>
-                        <div>
-                            Error: @error.key: @error.message
-                        </div>
-                    }
-                }
-
                 @helper.form(action = routes.UserController.processRegister) {
 
                     @helper.CSRF.formField
@@ -32,6 +25,11 @@
                         Symbol("placeholder") -> "Password",
                         Symbol("size") -> 20
                     )
+                    @if(form.hasGlobalErrors) {
+                        <div class="error">
+                        @form.globalErrors.head.message
+                        </div>
+                    }
                     <div class="flex-center"><p>Already have an account? </p> <a href="@routes.UserController.loginView">Login</a></div>
                     <div class="flex-center">
                         <input type="submit" value="Register">

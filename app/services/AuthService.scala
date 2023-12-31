@@ -118,6 +118,13 @@ class AuthService @Inject()(conf : Configuration) {
     db.find(_.username == user.username)
   }
 
+  def userExists(username: String): Boolean = {
+    val usersDB = readDB
+    getUserByUsername(username, usersDB) match {
+      case Some(_) => true
+      case _ => false
+    }
+  }
 
   private def getUserByUsername(username: String, usersDB: List[RegisteredUser]): Option[RegisteredUser] = {
     usersDB.find(_.username == username)
