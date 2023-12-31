@@ -1,15 +1,24 @@
 package services
 
+
+import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim, JwtJson}
+
 import models.{RegisteredUser, User}
+import org.apache.pekko.actor.typed.delivery.internal.ProducerControllerImpl.Request
 import org.mindrot.jbcrypt.BCrypt
 import pdi.jwt.{JwtAlgorithm, JwtClaim, JwtJson}
 import play.api.Configuration
-import play.api.libs.functional.syntax.*
+
 import play.api.libs.json.*
 import play.api.libs.json.Reads.*
+import play.api.libs.functional.syntax.*
+import play.api.mvc.RequestHeader
+
+
 import java.io.{File, FileInputStream, FileOutputStream}
 import java.time.Clock
 import javax.inject.Inject
+import scala.util.{Failure, Success}
 
 class AuthService @Inject()(conf : Configuration) {
   implicit val clock: Clock = Clock.systemUTC
@@ -21,20 +30,52 @@ class AuthService @Inject()(conf : Configuration) {
       (JsPath \ "username").format[String] and
       (JsPath \ "password").format[String]
     ) (RegisteredUser.apply, r => (r.id, r.username, r.password))
+  val jwtKey = "jwt"
 
-  private def generateToken(userID: Int): String = {
-    val claim = JwtClaim().issuedNow.expiresIn(3600).+("user_id", userID)
-    JwtJson.encode(claim, secretKey, algo)
+  def generateToken(username: String): String = {
+    val claim = JwtClaim(Json.stringify(Json.obj("username" -> username)))
+      .issuedNow
+      .expiresIn(3600)
+    Jwt.encode(claim, secretKey, algo)
+
+  }
+  
+
+  def validateToken(token: String): Boolean = {
+    println("validateToken")
+    if(Jwt.isValid(token, secretKey, Seq(algo))) {
+      println("token is valid")
+      val claim = Jwt.decode(token, secretKey, Seq(algo))
+      println(s"claim: $claim")
+      claim match {
+        case Success(claim) => {
+          try {
+            val json = Json.parse(claim.content)
+            val username = (json \ "username").as[String]
+            val usersDB = readDB
+            println(s"json: $json")
+            println(s"userID: $username")
+            getUserByUsername(username, usersDB) match {
+              case Some(_) => true
+              case _ => false
+            }
+          } catch {
+            case e: Exception => false
+          }
+        }
+        case Failure(_) => false
+      }
+    } else {
+      println("token is invalid")
+      false
+    }
   }
 
-  def refreshToken(token: String): String = {
-    val claim = JwtJson.decode(token, secretKey, Seq(algo)).get
-    val newClaim = claim.issuedNow.expiresIn(3600)
-    JwtJson.encode(newClaim, secretKey, algo)
-  }
-
-  def verifyToken(token: String): Boolean = {
-    JwtJson.isValid(token, secretKey, Seq(algo))
+  def isAuthenticated(request : RequestHeader): Boolean = {
+    request.session.get(jwtKey) match {
+      case Some(token) => validateToken(token)
+      case None => false
+    }
   }
 
   private def readDB = {
@@ -77,14 +118,23 @@ class AuthService @Inject()(conf : Configuration) {
     db.find(_.username == user.username)
   }
 
+
+  private def getUserByUsername(username: String, usersDB: List[RegisteredUser]): Option[RegisteredUser] = {
+    usersDB.find(_.username == username)
+  }
+
   def loginUser(user: User): String = {
     val usersDB = readDB
-    val someUser = getUser(user, usersDB)
+    val formattedUser = user.copy(username = user.username.toLowerCase())
+    val someUser = getUser(formattedUser, usersDB)
+    println(s"loginUser $someUser")
     someUser match {
       case Some(registeredUser) =>
-        if (checkPassword(user, registeredUser.password)) {
-          println("Generated token")
-          generateToken(registeredUser.id)
+        if (checkPassword(formattedUser, registeredUser.password)) {
+          val token = generateToken(registeredUser.username)
+          println(s"token: $token")
+          token
+
         } else {
           throw new Exception("Wrong password")
         }

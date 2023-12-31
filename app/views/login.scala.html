@@ -1,6 +1,6 @@
-@(title: String, form: Form[models.User])(implicit session: Session, request: RequestHeader, messages: Messages)
+@(title: String, form: Form[models.User], loggedIn: Boolean)(implicit session: Session, request: RequestHeader, messages: Messages)
 
-@main(title, session) {
+@main(title, session, loggedIn) {
     <div class="flex-center">
         <div class="grid-user-form">
             <div class="flex-center">

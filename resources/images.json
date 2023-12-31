@@ -1,0 +1,36 @@
+[
+  {
+    "image_path": "images/IMG_bellablurry.jpg",
+    "image_owner": "admin",
+    "added_date": "2023-12-27",
+    "likes": [1,2,3],
+    "description": "This is a blurry picture of my dog",
+    "comments": [
+      {
+        "comment_owner": "testuser",
+        "comment": "This is a comment"
+      },
+      {
+        "comment_owner": "admin",
+        "comment": "This is another comment"
+      }
+    ]
+  },
+  {
+    "image_path": "images/IMG_bellaliving.jpg",
+    "image_owner": "testuser",
+    "added_date": "2023-12-27",
+    "likes": [1,2,3],
+    "description": "This is a blurry picture of my dog",
+    "comments": [
+      {
+        "comment_owner": "thisisa12cha",
+        "comment": "This is a comment"
+      },
+      {
+        "comment_owner": "superlongtestusername",
+        "comment": "This is another comment"
+      }
+    ]
+  }
+]

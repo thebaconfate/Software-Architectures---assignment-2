@@ -20,6 +20,14 @@ dl {
 }
 
 
+ul.navlist {
+    list-style: none;
+}
+
+li.navli {
+    display: inline;
+}
+
 
 .header-container {
     display: flex;
@@ -57,4 +65,14 @@ a {
     display: inline;
     padding-left: 0.2rem;
     padding-right: 0.2rem;
+}
+
+/* remove this once you're done*/
+
+p, h1, h2, h3, h4, h5, h6 {
+    color: white;
+}
+
+* {
+    background-color: dimgrey;
 }

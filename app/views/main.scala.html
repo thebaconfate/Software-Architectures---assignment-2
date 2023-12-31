@@ -4,7 +4,7 @@
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
  *@
-@(title: String, session: Session)(content: Html)
+@(title: String, session: Session, loggedIn: Boolean)(content: Html)(implicit request: RequestHeader)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,10 +23,9 @@
                 <button>Likes
                 </button>
             </span>
-            <nav>
-                @if 
-                <a href="@routes.UserController.loginView">Login</a>
-            </nav>
+
+            @navigation(loggedIn)
+
         </div>
         @* And here's where we render the `Html` object containing
          * the page content. *@

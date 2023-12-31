@@ -1,5 +1,2 @@
-[ {
-  "user_id" : 1,
-  "username" : "abc",
-  "password" : "$2a$10$iDAHC0uuubJJcPdnGxvXfOk1v0AS66i9HEABAaA/FraL3IJxirKVm"
-} ]
+[{"user_id":1,"username":"admin","password":"$2a$10$TxJw4EGnWGQNasi2xDYnrO0YBpkpjENvqmVtG9TpRplCwqIK3fXYW"}]
+
