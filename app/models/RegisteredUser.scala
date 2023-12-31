@@ -1,5 +1,3 @@
 package models
 
-
-case class RegisteredUser(id: Int, username: String, password: String) extends UserTrait(username, password)
-
+case class RegisteredUser(val id: Int, override val username: String, override val password: String) extends UserTrait

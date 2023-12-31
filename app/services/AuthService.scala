@@ -1,14 +1,19 @@
 package services
 
+
 import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim, JwtJson}
+
 import models.{RegisteredUser, User}
 import org.apache.pekko.actor.typed.delivery.internal.ProducerControllerImpl.Request
 import org.mindrot.jbcrypt.BCrypt
+import pdi.jwt.{JwtAlgorithm, JwtClaim, JwtJson}
 import play.api.Configuration
+
 import play.api.libs.json.*
 import play.api.libs.json.Reads.*
 import play.api.libs.functional.syntax.*
 import play.api.mvc.RequestHeader
+
 
 import java.io.{File, FileInputStream, FileOutputStream}
 import java.time.Clock
@@ -32,6 +37,7 @@ class AuthService @Inject()(conf : Configuration) {
       .issuedNow
       .expiresIn(3600)
     Jwt.encode(claim, secretKey, algo)
+
   }
   
 
@@ -103,7 +109,7 @@ class AuthService @Inject()(conf : Configuration) {
     val file = FileOutputStream(dbPath)
     val json = Json.toJson(usersDB.::(newUser))
     println(json)
-    file.write(json.toString().getBytes)
+    file.write(Json.prettyPrint(json).getBytes())
     file.flush()
     file.close()
   }
@@ -111,6 +117,7 @@ class AuthService @Inject()(conf : Configuration) {
   private def getUser(user: User, db: List[RegisteredUser]): Option[RegisteredUser] = {
     db.find(_.username == user.username)
   }
+
 
   private def getUserByUsername(username: String, usersDB: List[RegisteredUser]): Option[RegisteredUser] = {
     usersDB.find(_.username == username)
@@ -127,10 +134,11 @@ class AuthService @Inject()(conf : Configuration) {
           val token = generateToken(registeredUser.username)
           println(s"token: $token")
           token
+
         } else {
           throw new Exception("Wrong password")
         }
-      case None => throw new Exception("User not found")
+      case _ => throw new Exception("User not found")
     }
   }
 
