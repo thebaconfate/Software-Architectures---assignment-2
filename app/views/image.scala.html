@@ -1,1 +1,60 @@
-@()
+@(image: SharedImage)(implicit session: Session, request: RequestHeader)
+
+@main("some title", session, true) {
+    <main>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/image.css")">
+        @*<script>
+                let like = 1;
+                function likeImage() {
+                    fetch('@routes.ImageController.likeImage(image.owner, image.imagePath)', {
+                        method: 'POST'
+                    }).then(response => {
+                        if (response.ok) {
+                            // Update the likes count on the page
+                            var likesCountElement = document.getElementById('likesCount');
+                            likesCountElement.textContent = parseInt(likesCountElement.textContent) + 1;
+                        } else {
+                            console.error('Failed to like the image.');
+                        }
+                    }).catch(error => {
+                        console.error('Error while liking the image:', error);
+                    });
+                }
+        </script>*@
+        <div class="image-container">
+            <span class="image-header-container">
+                Added @image.addedDate.format("dd/MM/YYYY") by @image.owner
+                <span>
+                    <input type="button" class="like-button" value="Likes"/>
+                    @image.likes.length
+                </span>
+            </span>
+            <img src="@routes.Assets.versioned(image.imagePath)" alt="image"/>
+        </div>
+        <div class="desc-comments-container">
+            <div class="description-container">
+                <h3>Description</h3>
+                <p>@image.description</p>
+            </div>
+            <div class="comments-container">
+                <h3>Comments:</h3>
+                <ul class="comments-list">
+                @for(comment <- image.comments) {
+                    <li>
+                        <span class="comment-container">
+                            <h5>@comment.owner</h5>
+                            <p>@comment.content</p>
+                        </span>
+                    </li>
+                }
+                </ul>
+                <div class="add-comment-container">
+                    <form action="" method="post">
+                        <input type="text" name="comment" placeholder="Add comment"/>
+                        <input type="submit" value="Add"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+}

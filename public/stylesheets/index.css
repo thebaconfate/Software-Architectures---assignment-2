@@ -69,7 +69,7 @@ img {
 .comment-container > h5, p {
     overflow-wrap: break-word;
 }
-.comment-container > h5:after {
+.comment-container > h5::after {
     content: ":";
     padding-left: 1px;
 

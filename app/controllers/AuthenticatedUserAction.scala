@@ -12,6 +12,8 @@ import scala.concurrent.{ExecutionContext, Future}
  * https://www.playframework.com/documentation/2.6.x/ScalaActionsComposition#Authentication
  * https://www.playframework.com/documentation/2.6.x/api/scala/index.html#play.api.mvc.Results@values
  * `Forbidden`, `Ok`, and others are a type of `Result`.
+ *
+ * took code from wpo
  */
 class AuthenticatedUserAction @Inject() (parser: BodyParsers.Default, authService: AuthService)(implicit ec: ExecutionContext)
   extends ActionBuilderImpl(parser) {

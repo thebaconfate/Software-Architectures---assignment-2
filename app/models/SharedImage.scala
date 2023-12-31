@@ -6,4 +6,9 @@ case class SharedImage(imagePath: String,
                        addedDate: Date,
                        likes: Seq[Int],
                        description: String,
-                       comments: Seq[Comment])
+                       comments: Seq[Comment]) {
+
+  def getTitle: String = {
+    imagePath.split("/").last.split("\\.").head
+  }
+}

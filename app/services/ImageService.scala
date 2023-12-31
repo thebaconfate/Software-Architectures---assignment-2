@@ -33,4 +33,9 @@ class ImageService @Inject()(){
       inputStream.close()
     }
   }
+  
+  def getImage(username: String, imageURL: String): Option[SharedImage] = {
+    val images = getImages
+    images.find(image => image.owner == username && image.imagePath == imageURL)
+  } 
 }

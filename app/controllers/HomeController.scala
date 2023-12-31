@@ -25,7 +25,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
    */
   def index() = Action {
     implicit request: Request[AnyContent] =>
-      val authenticated = true
+      val authenticated = authService.isAuthenticated(request)
       val sharedImageList: List[SharedImage] = if authenticated then
         imageService.getImages
       else

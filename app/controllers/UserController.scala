@@ -23,14 +23,16 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
       "username" -> nonEmptyText,
       "password" -> nonEmptyText,
     )(User.apply)(User.unapply))
-  
+
 
   def loginView: Action[AnyContent] = messagesAction {
     implicit request: MessagesRequest[AnyContent] =>
-      Ok(views.html.login("login", userForm, false))
+      if authService.isAuthenticated(request) then
+        Redirect(routes.HomeController.index()) else
+        Ok(views.html.login("login", userForm, false))
   }
 
-  def processLogout: Action[AnyContent] = messagesAction{
+  def logout: Action[AnyContent] = messagesAction{
     implicit request: MessagesRequest[AnyContent] =>
       Redirect(routes.UserController.loginView).withNewSession
   }
@@ -44,19 +46,19 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
         user => {
           try {
             val token = authService.loginUser(user)
-            Redirect(routes.HomeController.index()).withSession("jwt" -> token)
+            Redirect(routes.HomeController.index()).withSession(authService.jwtKey -> token)
           } catch {
             case _: Exception => BadRequest(views.html.login("login", userForm, false))
           }
         }
       )
   }
-  
+
   def registerView: Action[AnyContent] = messagesAction {
     implicit request: MessagesRequest[AnyContent] =>
       Ok(views.html.register("register text", userForm, false))
   }
-  
+
   def processRegister: Action[AnyContent] = messagesAction { implicit request =>
     userForm
       .bindFromRequest()
@@ -66,7 +68,8 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
         },
         user => {
           try {
-            authService.registerUser(user)
+            val formattedUser = user.copy(username = user.username.toLowerCase())
+            authService.registerUser(formattedUser)
             Redirect(routes.UserController.loginView)
           } catch {
             case _: Exception => BadRequest(views.html.register("register", userForm, false))
