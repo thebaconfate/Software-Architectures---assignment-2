@@ -1,9 +1,5 @@
 [ {
-  "user_id" : 2,
-  "username" : "admin1",
-  "password" : "$2a$10$xBNC1kdleuBVywqRWI4eXuN0243Zenl7ViGfDOMJB4fmOSAHuWunK"
-}, {
   "user_id" : 1,
-  "username" : "admin",
-  "password" : "$2a$10$TxJw4EGnWGQNasi2xDYnrO0YBpkpjENvqmVtG9TpRplCwqIK3fXYW"
+  "username" : "sudoadmin",
+  "password" : "$2a$10$/N/VhF4N7lw.brdj5TBHOOIrCIccRMlQTq1fbCmyeiLzblEgMqmvy"
 } ]

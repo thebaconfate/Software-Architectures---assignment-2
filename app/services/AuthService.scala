@@ -31,7 +31,7 @@ class AuthService @Inject()(conf : Configuration) {
       (JsPath \ "password").format[String]
     ) (RegisteredUser.apply, r => (r.id, r.username, r.password))
   val jwtKey = "jwt"
-
+  val unAuthMsg = "You are not logged in, please login at /login"
   def generateToken(username: String): String = {
     val claim = JwtClaim(Json.stringify(Json.obj("username" -> username)))
       .issuedNow

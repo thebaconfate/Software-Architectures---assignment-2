@@ -57,7 +57,7 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
 
   def logout: Action[AnyContent] = messagesAction{
     implicit request: MessagesRequest[AnyContent] =>
-      Redirect(routes.UserController.loginView).withNewSession
+      Redirect(routes.UserController.loginView).withSession(request.session - authService.jwtKey)
   }
   def processLogin: Action[AnyContent] = messagesAction { implicit request =>
     userForm

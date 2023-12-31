@@ -16,5 +16,8 @@ GET /logout                         controllers.UserController.logout
 GET /register                       controllers.UserController.registerView
 POST /process_register              controllers.UserController.processRegister
 
+GET /share_image                   controllers.ImageController.shareImageView
+POST /share_image                  controllers.ImageController.uploadImage
+
 GET /:username/:image          controllers.ImageController.specificImageView(username: String, image: String)
 

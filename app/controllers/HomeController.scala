@@ -23,7 +23,7 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index() = Action {
+  def index(): Action[AnyContent] = Action {
     implicit request: Request[AnyContent] =>
       val authenticated = authService.isAuthenticated(request)
       val sharedImageList: List[SharedImage] = if authenticated then

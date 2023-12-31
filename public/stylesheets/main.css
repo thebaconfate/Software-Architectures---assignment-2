@@ -33,7 +33,7 @@ li.navli {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1rem;
+    padding: 1rem 2rem;
 }
 
 button, input[type="submit"] {
@@ -67,12 +67,3 @@ a {
     padding-right: 0.2rem;
 }
 
-/* remove this once you're done*/
-
-p, h1, h2, h3, h4, h5, h6 {
-    color: white;
-}
-
-* {
-    background-color: dimgrey;
-}

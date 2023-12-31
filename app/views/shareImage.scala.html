@@ -1,0 +1,15 @@
+@(form : Form[models.ImageDescription])(implicit session: Session, requestHeader: RequestHeader,  messages: Messages)
+
+@main("Share an image", session, true) {
+    <main>
+        <h1>Share an image</h1>
+        @helper.form(action = routes.ImageController.uploadImage, Symbol("enctype") -> "multipart/form-data") {
+            <input type="file" name="picture">
+            @helper.inputText(form("description"))
+            <div>
+            <input type="submit" value="Share" />
+            <input type="Reset" value="Cancel" />
+            </div>
+        }
+    </main>
+}
