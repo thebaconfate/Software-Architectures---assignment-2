@@ -1,35 +1,38 @@
-@(image: SharedImage)(implicit session: Session, request: RequestHeader)
+@(image: SharedImage, form : Form[models.UploadComment])(implicit session: Session, request: RequestHeader, messages: Messages)
 
 @main("some title", session, true) {
     <main>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/image.css")">
-        @*<script>
-                let like = 1;
+        <script>
                 function likeImage() {
                     fetch('@routes.ImageController.likeImage(image.owner, image.imagePath)', {
-                        method: 'POST'
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Csrf-Token': '@helper.CSRF.getToken.value'
+                        },
                     }).then(response => {
-                        if (response.ok) {
-                            // Update the likes count on the page
-                            var likesCountElement = document.getElementById('likesCount');
-                            likesCountElement.textContent = parseInt(likesCountElement.textContent) + 1;
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
                         } else {
-                            console.error('Failed to like the image.');
+                            return response.json();
                         }
+                    }).then(data => {
+                        document.getElementById("likesCount").innerHTML = data.likesCount;
                     }).catch(error => {
-                        console.error('Error while liking the image:', error);
+                        console.error('Error while liking the image');
                     });
                 }
-        </script>*@
+        </script>
         <div class="image-container">
             <span class="image-header-container">
                 Added @image.addedDate.format("dd/MM/YYYY") by @image.owner
-                <span>
-                    <input type="button" class="like-button" value="Likes"/>
-                    @image.likes.length
-                </span>
+                <div>
+                    <input type="button" onclick="likeImage()" class="like-button" value="Likes" />
+                    <p id="likesCount" >@image.likes.length</p>
+                </div>
             </span>
-            <img src="@routes.Assets.versioned(image.imagePath)" alt="image"/>
+            <img src="@routes.Assets.versioned(image.getPath)" alt="image"/>
         </div>
         <div class="desc-comments-container">
             <div class="description-container">
@@ -49,10 +52,24 @@
                 }
                 </ul>
                 <div class="add-comment-container">
-                    <form action="" method="post">
-                        <input type="text" name="comment" placeholder="Add comment"/>
-                        <input type="submit" value="Add"/>
-                    </form>
+                @helper.form(action = routes.ImageController.addComment(image.owner, image.imagePath)) {
+                    @helper.CSRF.formField
+                    @helper.inputText(form("comment"), Symbol("_label") -> "New comment", Symbol("placeholder") -> "This is a new comment")
+                    @if(form.hasGlobalErrors) {
+                        <div class="error">
+                        @form.globalErrors.head.message
+                        </div>
+                    }
+                    @if(form.hasErrors) {
+                        <div class="error">
+                        @form.errors.map { error =>
+                            s"${error.key}: ${error.message}"
+                        }.mkString(", ")
+                        </div>
+                    }
+                    <input type="submit" value="Add comment" />
+                }
+
                 </div>
             </div>
         </div>

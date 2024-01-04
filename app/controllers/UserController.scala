@@ -102,5 +102,12 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
         }
       )
   }
+  
+  def profileView: Action[AnyContent] = messagesAction {
+    implicit request: MessagesRequest[AnyContent] =>
+      if authService.isAuthenticated(request) then
+        Ok(views.html.profile("profile", "potato", true)) else
+        Redirect(routes.UserController.loginView)
+  }
 
 }

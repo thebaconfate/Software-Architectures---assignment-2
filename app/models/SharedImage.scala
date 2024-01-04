@@ -11,4 +11,8 @@ case class SharedImage(imagePath: String,
   def getTitle: String = {
     imagePath.split("/").last.split("\\.").head
   }
+
+  def getPath: String = {
+    s"/images/$owner/$imagePath"
+  }
 }

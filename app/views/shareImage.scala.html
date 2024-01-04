@@ -1,15 +1,18 @@
-@(form : Form[models.ImageDescription])(implicit session: Session, requestHeader: RequestHeader,  messages: Messages)
+@()(implicit session: Session, requestHeader: RequestHeader,  messages: Messages)
 
 @main("Share an image", session, true) {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/shareImage.css")">
     <main>
         <h1>Share an image</h1>
-        @helper.form(action = routes.ImageController.uploadImage, Symbol("enctype") -> "multipart/form-data") {
-            <input type="file" name="picture">
-            @helper.inputText(form("description"))
+        <form action="@routes.ImageController.uploadImage" method="post" enctype="multipart/form-data">
+            @helper.CSRF.formField
+            <input id="fileinput" type="file" name="picture">
+            <label for="description" id="descriptionlabel">Description:</label>
+            <textarea name="description" rows="4" cols="50" required></textarea>
             <div>
-            <input type="submit" value="Share" />
-            <input type="Reset" value="Cancel" />
+                <input type="submit" value="Share" />
+                <input type="Reset" value="Cancel" />
             </div>
-        }
+        </form>
     </main>
 }

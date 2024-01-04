@@ -19,5 +19,10 @@ POST /process_register              controllers.UserController.processRegister
 GET /share_image                   controllers.ImageController.shareImageView
 POST /share_image                  controllers.ImageController.uploadImage
 
-GET /:username/:image          controllers.ImageController.specificImageView(username: String, image: String)
+GET /:username/:image              controllers.ImageController.specificImageView(username: String, image: String)
 
+
+GET /profile                       controllers.UserController.profileView
+
+POST /likeimage/:owner/:imageURL                    controllers.ImageController.likeImage(owner: String, imageURL: String)
+POST /addcomment/:owner/:imageURL/          controllers.ImageController.addComment(owner: String, imageURL: String)

@@ -30,7 +30,6 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
         imageService.getImages
       else
         List()
-      for(i <- sharedImageList) println(i.imagePath)
       Ok(views.html.index("Some text", sharedImageList))
 
   }

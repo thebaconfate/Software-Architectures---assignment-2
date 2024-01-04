@@ -4,7 +4,7 @@
     <ul class="navlist">
         @if(loggedIn) {
             <li class="navli"><a href="@routes.ImageController.shareImageView">Share an image</a></li>
-            <li class="navli"><a href="">Profile</a></li>
+            <li class="navli"><a href="@routes.UserController.profileView">Profile</a></li>
             <li class="navli"><a href="@routes.UserController.logout">Logout</a></li>
         } else {
             <li class="navli"><a href="@routes.UserController.loginView">Login</a></li>

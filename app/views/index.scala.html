@@ -14,7 +14,7 @@
         </div>
         <div class="image-container">
           <h3>Added date: @image.addedDate.format("d/M/YYYY")</h3>
-          <img src="@routes.Assets.versioned(image.imagePath)" alt="somepicture"/>
+          <img src="@routes.Assets.versioned(image.getPath)" alt="somepicture"/>
         </div>
         <div class="likes-and-comments-container">
           <span class="likes-container">

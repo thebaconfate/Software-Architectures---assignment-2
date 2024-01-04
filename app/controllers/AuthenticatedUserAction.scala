@@ -22,15 +22,7 @@ class AuthenticatedUserAction @Inject() (parser: BodyParsers.Default, authServic
 
   override def invokeBlock[A](request: Request[A], block: (Request[A]) => Future[Result]): Future[Result] = {
     logger.info("ENTERED AuthenticatedUserAction::invokeBlock ...")
-    val maybeJwt = request.session.get("jwt")
-    val loggedIn = maybeJwt match {
-      case None =>
-        logger.info("No JWT found in session.")
-        false
-      case Some(jwt) =>
-        logger.info(s"Found JWT in session: $jwt")
-        authService.validateToken(jwt)
-    }
+    val loggedIn = authService.isAuthenticated(request)
     if loggedIn then
       val res: Future[Result] = block(request)
       res

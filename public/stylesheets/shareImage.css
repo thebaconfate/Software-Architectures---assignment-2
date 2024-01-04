@@ -1,0 +1,27 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input, dl {
+    padding: 5px 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#description {
+    width: 300px;
+    height: 200px;
+}
+
+#fileinput {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
