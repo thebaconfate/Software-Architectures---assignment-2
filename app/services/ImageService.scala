@@ -24,7 +24,7 @@ class ImageService @Inject()(){
   private val imagesDBFile = File(imagesJsonFile)
 
   def getImages: List[SharedImage] = {
- 
+
     val inputStream = FileInputStream(imagesDBFile)
     try {
       Json.parse(inputStream).as[List[SharedImage]]
@@ -53,7 +53,7 @@ class ImageService @Inject()(){
     val json = Json.toJson(images)
     val outputStream = java.io.FileOutputStream(imagesDBFile)
     try {
-      outputStream.write(json.toString().getBytes)
+      outputStream.write(Json.prettyPrint(json).getBytes)
       outputStream.flush()
       outputStream.close()
     } finally {

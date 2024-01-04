@@ -179,4 +179,16 @@ class AuthService @Inject()(conf : Configuration) {
       case None => saveUser(user, usersDB)
     }
   }
+  
+  def changePassword(username: String, password: String): Unit = {
+    val usersDB = readDB
+    val oldUser = getUserByUsername(username, usersDB).get
+    val newUser = oldUser.copy(password = BCrypt.hashpw(password, BCrypt.gensalt()))
+    val newDB = usersDB.filterNot(_.username == username).::(newUser)
+    val file = FileOutputStream(dbPath)
+    val json = Json.toJson(newDB)
+    file.write(Json.prettyPrint(json).getBytes())
+    file.flush()
+    file.close()
+  }
 }

@@ -60,13 +60,6 @@
                         @form.globalErrors.head.message
                         </div>
                     }
-                    @if(form.hasErrors) {
-                        <div class="error">
-                        @form.errors.map { error =>
-                            s"${error.key}: ${error.message}"
-                        }.mkString(", ")
-                        </div>
-                    }
                     <input type="submit" value="Add comment" />
                 }
 

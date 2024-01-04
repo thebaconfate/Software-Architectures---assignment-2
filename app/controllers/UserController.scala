@@ -47,6 +47,12 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
       "password" -> nonEmptyText.verifying(passCheck),
     )(User.apply)(User.unapply))
 
+  private val passwordForm: Form[String] = Form(
+    mapping(
+      "password" -> nonEmptyText.verifying(passCheck),
+    )(identity)(Some(_))
+  )
+
 
   def loginView: Action[AnyContent] = messagesAction {
     implicit request: MessagesRequest[AnyContent] =>
@@ -105,9 +111,25 @@ class UserController @Inject()(val cc: ControllerComponents, messagesAction: Mes
   
   def profileView: Action[AnyContent] = messagesAction {
     implicit request: MessagesRequest[AnyContent] =>
-      if authService.isAuthenticated(request) then
-        Ok(views.html.profile("profile", "potato", true)) else
-        Redirect(routes.UserController.loginView)
+      val user = authService.getUsername(request)
+      user match
+        case Some(username) => Ok(views.html.profile("profile", username, passwordForm))
+        case None => Redirect(routes.UserController.loginView)
+  }
+
+  def processPassReset: Action[AnyContent]= messagesAction {
+    implicit request: MessagesRequest[AnyContent] =>
+      passwordForm
+        .bindFromRequest()
+        .fold(
+          formWithErrors => {
+            BadRequest(views.html.profile("profile", authService.getUsername(request).get, formWithErrors))
+          },
+          password => {
+            authService.changePassword(authService.getUsername(request).get, password)
+            Redirect(routes.UserController.profileView)
+          }
+        )
   }
 
 }

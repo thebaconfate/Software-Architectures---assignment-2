@@ -26,3 +26,4 @@ GET /profile                       controllers.UserController.profileView
 
 POST /likeimage/:owner/:imageURL                    controllers.ImageController.likeImage(owner: String, imageURL: String)
 POST /addcomment/:owner/:imageURL/          controllers.ImageController.addComment(owner: String, imageURL: String)
+POST /profile                        controllers.UserController.processPassReset

@@ -1,1 +1,53 @@
-[{"image_path":"IMG_bellanieuw.jpg","image_owner":"sudoadmin","added_date":1704353614714,"likes":[1],"description":"a new picture of my dog","comments":[{"comment_owner":"sudoadmin","comment":"this is such a cute dog"}]}]
+[ {
+  "image_path" : "google-cat-search-2014-04-1483346595.jpg",
+  "image_owner" : "sudoadmin",
+  "added_date" : 1704366887496,
+  "likes" : [ 1],
+  "description" : "A random image of a cat from google",
+  "comments" : [ ]
+}, {
+  "image_path" : "IMG_bellaliving.jpg",
+  "image_owner" : "sudoadmin",
+  "added_date" : 1704366692564,
+  "likes" : [5,4,9 ],
+  "description" : "My dog in the living room",
+  "comments" : [ ]
+}, {
+  "image_path" : "IMG_bellavogel.jpg",
+  "image_owner" : "sudoadmin",
+  "added_date" : 1704366633303,
+  "likes" : [1,2 ],
+  "description" : "My dog with her toy",
+  "comments" : [ ]
+}, {
+  "image_path" : "IMG_bellatuin.jpg",
+  "image_owner" : "sudoadmin",
+  "added_date" : 1704366607665,
+  "likes" : [ ],
+  "description" : "My dog in the garden",
+  "comments" : [ ]
+}, {
+  "image_path" : "IMG_trashpanda.jpg",
+  "image_owner" : "sudoadmin",
+  "added_date" : 1704366591253,
+  "likes" : [2,5,6,7 ],
+  "description" : "cute raccoon",
+  "comments" : [ ]
+}, {
+  "image_path" : "IMG_filou.jpg",
+  "image_owner" : "sudoadmin",
+  "added_date" : 1704300000000,
+  "likes" : [1,2,3,4,5,6,7,8,9,10],
+  "description" : "My girlfriends cat",
+  "comments" : [ ]
+}, {
+  "image_path" : "IMG_bellanieuw.jpg",
+  "image_owner" : "sudoadmin",
+  "added_date" : 1704200000000,
+  "likes" : [ 1,2,4,5,7,8,10 ],
+  "description" : "a new picture of my dog",
+  "comments" : [ {
+    "comment_owner" : "sudoadmin",
+    "comment" : "this is such a cute dog"
+  } ]
+} ]

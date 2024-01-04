@@ -1,10 +1,24 @@
-@(pageTitle: String, username: String, loggedIn: Boolean)(implicit session: Session, request: RequestHeader)
+@(pageTitle: String, username: String, form : Form[String])(implicit session: Session, request: RequestHeader, messages: Messages)
 
-@main(pageTitle, session = session, loggedIn = loggedIn){
+@main(pageTitle, session = session, loggedIn = true){
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/profile.css")">
     <main>
-
-
+    @helper.form(action = routes.UserController.processPassReset) {
+        @helper.CSRF.formField
+        @helper.inputPassword(
+            form("password"),
+            Symbol("_label") -> "New password:",
+            Symbol("label") -> "password",
+            Symbol("placeholder") -> "Password",
+            Symbol("size") -> 20
+        )
+        @if(form.hasGlobalErrors) {
+            <div class="error">
+            @form.globalErrors.head.message
+            </div>
+        }
+        <input type="submit" value="Change password" />
+    }
 
     </main>
 }
