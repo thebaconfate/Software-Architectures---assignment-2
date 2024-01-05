@@ -5,7 +5,8 @@ import models.SharedImage
 import javax.inject.*
 import play.api.*
 import play.api.mvc.*
-import services._
+import services.*
+import models.*
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -23,14 +24,26 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents,
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index(): Action[AnyContent] = Action {
+  def index(sortBy: String, sorting: String): Action[AnyContent] = Action {
     implicit request: Request[AnyContent] =>
       val authenticated = authService.isAuthenticated(request)
+
       val sharedImageList: List[SharedImage] = if authenticated then
         imageService.getImages
       else
         List()
-      Ok(views.html.index("Some text", sharedImageList))
+      val sortedImageList = sortBy match
+        case "date" => sharedImageList.sortBy(_.addedDate)
+        case "likes" => sharedImageList.sortBy(_.likes.length)
+        case _ => sharedImageList
+      val resultImages = sorting match
+        case "desc" => sortedImageList.reverse
+        case _ => sortedImageList
+      println(s"sortBy: $sortBy, sorting: $sorting")
+      for (image <- resultImages) {
+        println(s"image: $image")
+      }
+      Ok(views.html.index("Some text", resultImages, sortBy, sorting))
 
   }
 }

@@ -2,6 +2,7 @@
 
 <nav>
     <ul class="navlist">
+        <li class="navli"><a href="@routes.HomeController.index()">Home</a></li>
         @if(loggedIn) {
             <li class="navli"><a href="@routes.ImageController.shareImageView">Share an image</a></li>
             <li class="navli"><a href="@routes.UserController.profileView">Profile</a></li>

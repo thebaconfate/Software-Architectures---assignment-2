@@ -1,0 +1,8 @@
+@(sortBy: String, sorting: String )
+
+<span>
+        <a href="@routes.HomeController.index("date", "asc")">Date(Ascending)</a>
+        <a href="@routes.HomeController.index("date", "desc")">Date(Descending)</a>
+        <a href="@routes.HomeController.index("likes", "asc")">Likes(Ascending)</a>
+        <a href="@routes.HomeController.index("likes", "desc")">Likes(Descending)</a>
+</span>

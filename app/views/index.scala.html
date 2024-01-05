@@ -1,4 +1,4 @@
-@(welcome: String, sharedImages: List[models.SharedImage])(implicit session: Session, request: RequestHeader)
+@(welcome: String, sharedImages: List[models.SharedImage], sortBy: String, sorting: String)(implicit session: Session, request: RequestHeader)
 
 @main(welcome, session, sharedImages.nonEmpty) {
   <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/index.css")">

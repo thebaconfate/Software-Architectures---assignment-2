@@ -4,7 +4,7 @@
  * two arguments, a `String` for the title of the page and an `Html`
  * object to insert into the body of the page.
  *@
-@(title: String, session: Session, loggedIn: Boolean)(content: Html)(implicit request: RequestHeader)
+@(title: String, session: Session, loggedIn: Boolean, sortBy: String = "default", sorting: String = "none")(content: Html)(implicit request: RequestHeader)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,15 +17,10 @@
     </head>
     <body>
         <div class="header-container">
-            <span>
-                <button>Date
-                </button>
-                <button>Likes
-                </button>
-            </span>
-
+            @if(loggedIn) {
+                @buttons(sortBy, sorting)
+            }
             @navigation(loggedIn)
-
         </div>
         @* And here's where we render the `Html` object containing
          * the page content. *@
